@@ -50,6 +50,20 @@ The worst-case scenario occurs when the array is in reverse order.
 - **Space Complexity: O(1)**  
 The algorithm operates in constant space, only using a few variables for swapping.
 
+### Loop Invariant:
+
+The key invariant of Odd-Even Sort is:
+
+> **After k complete passes (one odd phase + one even phase), the last k elements of the array are in their final sorted positions.**
+
+**Why this holds:**
+- Each odd-even pair of phases acts like one bidirectional bubble-sweep. During the odd phase, odd-indexed elements are compared with their right neighbors; during the even phase, even-indexed elements are compared with their right neighbors.
+- Together, these phases ensure that the largest unsorted element "bubbles" toward the right end of the array at least one position per complete pass.
+- Once an element reaches its correct final position at the right end, subsequent passes never move it leftward (comparisons only swap when `arr[i] > arr[i+1]`, so a correctly-placed large element is never swapped left).
+- When k = n-1 complete passes have occurred, all n-1 largest elements are in place, and the remaining first element is trivially correct — the array is fully sorted.
+
+This invariant guarantees termination: after at most n-1 passes, no swaps occur and `isSorted` remains `true`, exiting the loop.
+
 ### Java Implementation:
 
 ```java

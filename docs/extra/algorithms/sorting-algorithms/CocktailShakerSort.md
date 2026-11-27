@@ -110,3 +110,22 @@ public class CocktailShakerSort {
 
 ### Summary:
 Cocktail Shaker Sort improves upon the standard Bubble Sort by processing the array in both directions, potentially reducing the number of iterations needed. Its bidirectional approach provides a simple yet effective alternative for sorting, though it still maintains a quadratic time complexity in average and worst-case scenarios, making it less efficient than more advanced algorithms like Quick Sort or Merge Sort.
+
+### Boundary Conditions:
+
+The algorithm's correctness depends on properly managing the `start` and `end` boundaries, which shrink inward after each bidirectional pass:
+
+1. **Empty or single-element array**:  
+   The loop terminates immediately — `swapped` stays `false` after the first forward pass finds nothing to swap, and `end--` / `start++` never cause an out-of-bounds access because the forward loop `i < end` doesn't execute when `start >= end`.
+
+2. **Already sorted array**:  
+   The forward pass makes no swaps, `swapped` remains `false`, and the `if (!swapped) break;` exits after a single pass — O(n) best case.
+
+3. **Reverse-sorted array**:  
+   Every adjacent pair is out of order in both directions, so the algorithm runs the full O(n²) passes until `start` meets `end`.
+
+4. **Duplicate elements**:  
+   The strict `>` and `<` comparisons mean equal elements are never swapped, preserving stability. The boundaries still close correctly because `start` and `end` are updated independently of swap outcomes.
+
+5. **Boundary convergence**:  
+   After each full forward+backward cycle, `end` moves one step left (the largest unsorted element is locked at the right) and `start` moves one step right (the smallest unsorted element is locked at the left). When `start >= end`, the entire array is sorted.

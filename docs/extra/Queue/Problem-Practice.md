@@ -61,3 +61,18 @@ tags: [DSA, algorithms, Queue, dsa]
 - [Complete Binary Tree](https://www.geeksforgeeks.org/problems/complete-binary-tree/1?page=2&category=Queue&sortBy=difficulty)
 - [Card Rotation](https://www.geeksforgeeks.org/problems/card-rotation5834/1?page=2&category=Queue&sortBy=difficulty)
 - [Police and Thieves](https://www.geeksforgeeks.org/problems/police-and-thieves--141631/1?page=2&category=Queue&sortBy=difficulty)
+
+### Comparison of Two Methods:
+
+When solving queue-based problems, two common implementation approaches are:
+
+| Aspect | Queue using Array (Circular Buffer) | Queue using Linked List |
+|--------|-------------------------------------|-------------------------|
+| **Enqueue / Dequeue** | O(1) amortized with circular indexing | O(1) with head/tail pointers |
+| **Space** | Fixed capacity; may waste space or need resizing | Dynamic; only allocates per node |
+| **Cache locality** | Excellent — contiguous memory | Poor — nodes scattered in memory |
+| **Implementation complexity** | Moderate — must handle wrap-around and resizing | Simple — pointer manipulation |
+| **Best for** | Known maximum size, performance-critical | Unknown/unbounded size, frequent resizing avoided |
+
+**Key takeaway:** For competitive programming problems with known input bounds (most listed here), a circular array queue is usually faster due to cache locality. For streaming or unbounded inputs, a linked-list queue avoids resizing overhead.
+

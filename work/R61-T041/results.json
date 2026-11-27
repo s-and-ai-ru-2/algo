@@ -1,0 +1,25 @@
+{
+  "exit_code": 0,
+  "python": "3.14.7",
+  "platform": "macOS-27.2.1-arm64-arm-64bit-Mach-O",
+  "checks": [
+    {
+      "args": [
+        2,
+        10,
+        1000
+      ],
+      "expected": 24,
+      "actual": 24
+    },
+    {
+      "args": [
+        5,
+        0,
+        13
+      ],
+      "expected": 1,
+      "actual": 1
+    }
+  ]
+}

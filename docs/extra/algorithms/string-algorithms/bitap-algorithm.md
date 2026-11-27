@@ -88,14 +88,16 @@ void bitapSearch(const string& text, const string& pattern, int maxErrors) {
     }
 
     for (int i = 0; i < n; ++i) {
-        int oldR_jMinus1 = ~0;
+        // Explicit snapshot of state from the previous text character,
+        // replacing the previously hidden carry variable.
+        vector<int> prev = R;
         for (int j = 0; j <= maxErrors; ++j) {
-            int temp = R[j];
             R[j] = ((R[j] << 1) | patternMask[text[i]]);
             if (j > 0) {
-                R[j] &= (oldR_jMinus1 << 1) | (R[j - 1] << 1) | oldR_jMinus1;
+                // prev[j-1] is the old value of R[j-1] before this character;
+                // R[j-1] is the already-updated value for this character.
+                R[j] &= (prev[j - 1] << 1) | (R[j - 1] << 1) | prev[j - 1];
             }
-            oldR_jMinus1 = temp;
         }
         if ((R[maxErrors] & (1 << (m - 1))) == 0) {
             cout << "Pattern found at index " << i - m + 1 << " with " << maxErrors << " allowed errors." << endl;

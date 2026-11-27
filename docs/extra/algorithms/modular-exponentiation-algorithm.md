@@ -70,8 +70,18 @@ def modular_exponentiation(base, exp, mod):
     return result
 
 # Example usage
-result = modular_exponentiation(2, 10, 1000)
-print(result)  # Output: 24
+if __name__ == "__main__":
+    # Test case 1: 2^10 mod 1000 = 1024 mod 1000 = 24
+    print("2^10 mod 1000 =", modular_exponentiation(2, 10, 1000))  # Output: 24
+
+    # Test case 2: 3^5 mod 7 = 243 mod 7 = 5
+    print("3^5 mod 7 =", modular_exponentiation(3, 5, 7))  # Output: 5
+
+    # Test case 3: 10^9 mod 1000000007 (large exponent, efficient)
+    print("10^9 mod 1000000007 =", modular_exponentiation(10, 9, 1000000007))
+
+    # Test case 4: base larger than mod
+    print("15^3 mod 4 =", modular_exponentiation(15, 3, 4))  # Output: 3
 ```
 ## Time Complexity
 The time complexity of the modular exponentiation algorithm is significantly reduced by the exponentiation by squaring technique.

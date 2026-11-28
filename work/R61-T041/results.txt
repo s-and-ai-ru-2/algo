@@ -1,0 +1,29 @@
+Tool version: Python 3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]
+Platform: macOS-27.2.1-arm64-arm-64bit-Mach-O
+
+Inputs and expected outputs:
+  Worked example  — modular_exponentiation(2, 10, 1000) -> 24
+  Boundary exp=0  — modular_exponentiation(5, 0, 13)    -> 1
+  Boundary base=0 — modular_exponentiation(0, 5, 7)     -> 0
+
+Expected output:
+=== Worked example ===
+24
+=== Boundary: exp = 0 ===
+1
+=== Boundary: base = 0 ===
+0
+All assertions passed.
+
+Actual output:
+=== Worked example ===
+24
+=== Boundary: exp = 0 ===
+1
+=== Boundary: base = 0 ===
+0
+All assertions passed.
+
+Deliberate wrong-result check: PASS (assertion correctly raised AssertionError)
+
+Status: PASS

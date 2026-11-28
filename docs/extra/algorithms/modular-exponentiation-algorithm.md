@@ -69,9 +69,25 @@ def modular_exponentiation(base, exp, mod):
     
     return result
 
-# Example usage
+# Worked example: 2^10 % 1000
 result = modular_exponentiation(2, 10, 1000)
-print(result)  # Output: 24
+print("=== Worked example ===")
+print(result)          # Output: 24
+assert result == 24, f"Expected 24, got {result}"
+
+# Boundary example: exp = 0 — any base^0 = 1 regardless of mod
+print("=== Boundary: exp = 0 ===")
+result_zero_exp = modular_exponentiation(5, 0, 13)
+print(result_zero_exp) # Output: 1
+assert result_zero_exp == 1, f"Expected 1, got {result_zero_exp}"
+
+# Boundary example: base = 0 — 0^n = 0 for any n > 0
+print("=== Boundary: base = 0 ===")
+result_zero_base = modular_exponentiation(0, 5, 7)
+print(result_zero_base) # Output: 0
+assert result_zero_base == 0, f"Expected 0, got {result_zero_base}"
+
+print("All assertions passed.")
 ```
 ## Time Complexity
 The time complexity of the modular exponentiation algorithm is significantly reduced by the exponentiation by squaring technique.
@@ -98,11 +114,16 @@ The time complexity of the modular exponentiation algorithm is significantly red
 ## Conclusion
 The Modular Exponentiation Algorithm provides an efficient way to compute large powers modulo a number. It leverages the technique of exponentiation by squaring to reduce the number of operations from exponential to logarithmic time. This algorithm is crucial in fields like cryptography and number theory, where operations with large numbers are common and need to be performed efficiently.
 
-
 ### Worked Trace (`base = 2, exp = 10, mod = 1000`)
-- **Initial state**: `result = 1`, `base = 2`, `exp = 10`
-- **Iteration 1** (`exp = 10`, even): `result = 1`, `base = 4`, `exp = 5`
-- **Iteration 2** (`exp = 5`, odd): `result = 4`, `base = 16`, `exp = 2`
-- **Iteration 3** (`exp = 2`, even): `result = 4`, `base = 256`, `exp = 1`
-- **Iteration 4** (`exp = 1`, odd): `result = 24`, `base = 536`, `exp = 0`
-- **Loop ends (`exp == 0`)**: returns `24`.
+- **Initial state**: `result = 1`, `base = 2 % 1000 = 2`, `exp = 10`
+- **Iteration 1** (`exp = 10`, even): `result = 1`, `base = (2²) % 1000 = 4`, `exp = 5`
+- **Iteration 2** (`exp = 5`, odd): `result = (1 × 4) % 1000 = 4`, `base = (4²) % 1000 = 16`, `exp = 2`
+- **Iteration 3** (`exp = 2`, even): `result = 4`, `base = (16²) % 1000 = 256`, `exp = 1`
+- **Iteration 4** (`exp = 1`, odd): `result = (4 × 256) % 1000 = 24`, `base = (256²) % 1000 = 536`, `exp = 0`
+- **Loop ends** (`exp == 0`): returns `24`.
+
+The key intermediate value at iteration 2 is `result = 4`: this is `2^4 % 1000`, accumulated from squaring `base` twice. By iteration 4, `result` holds `2^10 % 1000 = 1024 % 1000 = 24`.
+
+### Boundary cases
+- **`exp = 0`**: the `while exp > 0` loop never executes, so `result` stays `1`. This is correct because `base^0 = 1` for any `base`.
+- **`base = 0`**: `base % mod = 0` after initialisation, so every multiplication keeps `result = 0`. Correct because `0^n = 0` for any `n > 0`.

@@ -1,0 +1,30 @@
+Tool version: Python 3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]
+
+Inputs:
+  Worked example     — enqueue(1,2,3), dequeue all
+  Boundary single    — enqueue(42), dequeue
+  Boundary interleaved — enqueue(10,20), dequeue, enqueue(30), dequeue, dequeue
+
+Expected output:
+=== Worked example ===
+Two-stack: [1, 2, 3]
+Deque: [1, 2, 3]
+=== Boundary: single element ===
+Two-stack: 42
+Deque: 42
+=== Boundary: interleaved ops ===
+Two-stack: 10, 20, 30
+Deque: 10, 20, 30
+
+Actual output:
+=== Worked example ===
+Two-stack: [1, 2, 3]
+Deque: [1, 2, 3]
+=== Boundary: single element ===
+Two-stack: 42
+Deque: 42
+=== Boundary: interleaved ops ===
+Two-stack: 10, 20, 30
+Deque: 10, 20, 30
+
+Status: PASS

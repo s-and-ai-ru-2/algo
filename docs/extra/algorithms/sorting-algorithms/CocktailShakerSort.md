@@ -98,15 +98,61 @@ public class CocktailShakerSort {
     }
 
     public static void main(String[] args) {
+        // Worked example: {5, 3, 1, 4, 2} sorted by bidirectional passes.
+        System.out.println("=== Worked example ===");
         int[] arr = {5, 3, 1, 4, 2};
         cocktailShakerSort(arr);
         System.out.println("Sorted array:");
         for (int num : arr) {
             System.out.print(num + " ");
         }
+        // Expected output: 1 2 3 4 5
+
+        System.out.println();
+
+        // Boundary: single element.
+        // Precondition: start == end (both 0), so the forward loop range(0,0)
+        // is empty, swapped stays false, and the while-loop breaks immediately
+        // after one partial pass — no comparisons or swaps occur.
+        System.out.println("=== Boundary: single element ===");
+        int[] single = {42};
+        cocktailShakerSort(single);
+        System.out.println("Sorted array:");
+        for (int num : single) {
+            System.out.print(num + " ");
+        }
+        // Expected output: 42
+
+        System.out.println();
+
+        // Boundary: already-sorted array.
+        // Precondition: no pair satisfies arr[i] > arr[i+1], so the forward
+        // pass sets no swap, swapped stays false, and the guard "if (!swapped) break"
+        // terminates the loop after a single forward scan — the backward pass
+        // is never reached.
+        System.out.println("=== Boundary: already sorted ===");
+        int[] sorted = {1, 2, 3, 4, 5};
+        cocktailShakerSort(sorted);
+        System.out.println("Sorted array:");
+        for (int num : sorted) {
+            System.out.print(num + " ");
+        }
+        // Expected output: 1 2 3 4 5
+
+        System.out.println();
     }
 }
 ```
+
+**Boundary explanation**
+
+The precondition that decides how early the algorithm exits is the value of `swapped` after each directional pass:
+
+- **Single element** (`arr = {42}`): `start = 0`, `end = 0`. The forward loop runs `for (i = 0; i < 0; ...)` — zero iterations — so `swapped` is never set to `true`. The guard `if (!swapped) break` fires and the method returns without touching the array.
+
+- **Already-sorted array** (`arr = {1, 2, 3, 4, 5}`): The forward pass scans all adjacent pairs and finds no inversion, leaving `swapped = false`. The guard breaks the outer loop before the backward pass even starts. This is the best-case O(n) behaviour documented in the time complexity section.
+
+- **General unsorted array** (`arr = {5, 3, 1, 4, 2}`): At least one swap occurs in the forward pass, so `swapped = true` and the guard does not fire. After the forward pass, `end` shrinks by 1 (the largest unsorted element has bubbled to its final position) and the backward pass runs, moving the smallest unsorted element left. `start` then grows by 1. This shrinking window is what gives Cocktail Shaker Sort its advantage over plain Bubble Sort for arrays with small elements near the end.
 
 ### Summary:
 Cocktail Shaker Sort improves upon the standard Bubble Sort by processing the array in both directions, potentially reducing the number of iterations needed. Its bidirectional approach provides a simple yet effective alternative for sorting, though it still maintains a quadratic time complexity in average and worst-case scenarios, making it less efficient than more advanced algorithms like Quick Sort or Merge Sort.

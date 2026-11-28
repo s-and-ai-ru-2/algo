@@ -1,0 +1,31 @@
+Tool version: openjdk version "25.0.4.1" 2026-08-18 LTS
+Python: 3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]
+
+Inputs and expected outputs:
+  Worked example     — {5,3,1,4,2}       -> 1 2 3 4 5
+  Boundary single    — {42}               -> 42
+  Boundary sorted    — {1,2,3,4,5}        -> 1 2 3 4 5
+
+Expected output:
+=== Worked example ===
+Sorted array:
+1 2 3 4 5 
+=== Boundary: single element ===
+Sorted array:
+42 
+=== Boundary: already sorted ===
+Sorted array:
+1 2 3 4 5 
+
+Actual output:
+=== Worked example ===
+Sorted array:
+1 2 3 4 5 
+=== Boundary: single element ===
+Sorted array:
+42 
+=== Boundary: already sorted ===
+Sorted array:
+1 2 3 4 5 
+
+Status: PASS

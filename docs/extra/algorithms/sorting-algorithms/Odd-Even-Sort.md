@@ -89,15 +89,70 @@ public class OddEvenSort {
     }
 
     public static void main(String[] args) {
+        // Worked example: {5, 3, 1, 4, 2} -> sorted ascending in 4 passes.
+        System.out.println("=== Worked example ===");
         int[] arr = {5, 3, 1, 4, 2};
         oddEvenSort(arr);
         System.out.println("Sorted array:");
         for (int num : arr) {
             System.out.print(num + " ");
         }
+        // Expected output: 1 2 3 4 5
+
+        System.out.println();
+
+        // Boundary example: already-sorted array requires only one pass.
+        System.out.println("=== Boundary: already sorted ===");
+        int[] sorted = {1, 2, 3, 4, 5};
+        oddEvenSort(sorted);
+        System.out.println("Sorted array:");
+        for (int num : sorted) {
+            System.out.print(num + " ");
+        }
+        // Expected output: 1 2 3 4 5
+
+        System.out.println();
+
+        // Boundary example: single element — terminates immediately.
+        System.out.println("=== Boundary: single element ===");
+        int[] single = {42};
+        oddEvenSort(single);
+        System.out.println("Sorted array:");
+        for (int num : single) {
+            System.out.print(num + " ");
+        }
+        // Expected output: 42
+
+        System.out.println();
     }
 }
 ```
+
+**Invariant explanation**
+
+The key invariant of Odd-Even Sort is:
+
+> After each complete pass (one odd phase followed by one even phase), the largest unsorted element has bubbled into its correct final position at the end of the unsorted portion.
+
+More precisely, after pass `k`, the `k` largest elements occupy the last `k` positions of the array and will never move again. This mirrors bubble sort's invariant but advances two positions per pass by interleaving odd- and even-indexed comparisons in parallel.
+
+**Worked example trace** — input `{5, 3, 1, 4, 2}`:
+
+| Pass | After odd phase | After even phase |
+|------|----------------|-----------------|
+| 1 | `{5, 1, 3, 2, 4}` | `{1, 5, 2, 3, 4}` |
+| 2 | `{1, 2, 5, 3, 4}` | `{1, 2, 3, 5, 4}` |
+| 3 | `{1, 2, 3, 4, 5}` | `{1, 2, 3, 4, 5}` |
+| 4 | *(no swaps — isSorted stays true)* | *(terminates)* |
+
+After pass 1: `4` and `5` are in their final positions (last two slots).  
+After pass 2: `3`, `4`, `5` are settled.  
+After pass 3: the array is fully sorted; pass 4 confirms it and exits.
+
+**Boundary example traces**
+
+- `{1, 2, 3, 4, 5}` — already sorted: the odd and even phases make no swaps, `isSorted` stays `true`, and the loop exits after a single pass.
+- `{42}` — single element: both phases find no adjacent pair to compare, so `isSorted` stays `true` and the loop exits after one pass.
 
 ### Summary:
 Odd-Even Sort is a straightforward sorting algorithm that alternates between odd and even phases to sort an array. While it can be implemented efficiently in parallel computing environments, its average and worst-case time complexities of O(n2) make it less efficient compared to more advanced algorithms like Quick Sort or Merge Sort.

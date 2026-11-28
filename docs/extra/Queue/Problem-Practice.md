@@ -14,6 +14,106 @@ tags: [DSA, algorithms, Queue, dsa]
 - [Queue Reversal](https://www.geeksforgeeks.org/problems/queue-reversal/1)
 - [Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator/description/)
 
+#### Worked example — Implement Queue using Stacks
+
+The classic approach uses two stacks (`inbox` and `outbox`).  New items are pushed onto `inbox`; when `outbox` is empty on a dequeue, the entire `inbox` is reversed into `outbox`. This lazy reversal gives **amortised O(1)** dequeue because each element crosses from `inbox` to `outbox` exactly once.
+
+```python
+from collections import deque
+
+# ── Method 1: Two-stack queue (amortised O(1) per operation) ─────────────────
+class QueueViaStacks:
+    def __init__(self):
+        self.inbox  = []   # new items land here
+        self.outbox = []   # items leave from here (reversed order)
+
+    def enqueue(self, val):
+        self.inbox.append(val)          # O(1)
+
+    def dequeue(self):
+        if not self.outbox:             # lazy transfer: O(n) amortised O(1)
+            while self.inbox:
+                self.outbox.append(self.inbox.pop())
+        return self.outbox.pop()
+
+    def peek(self):
+        if not self.outbox:
+            while self.inbox:
+                self.outbox.append(self.inbox.pop())
+        return self.outbox[-1]
+
+    def empty(self):
+        return not self.inbox and not self.outbox
+
+
+# ── Method 2: Single deque baseline (direct O(1) comparison) ─────────────────
+# Uses Python's built-in deque for a direct O(1) append/popleft.
+# Intermediate state: a single ordered sequence — no reversal step ever needed.
+# The two-stack method trades one extra reversal pass for the ability to use
+# only stack (LIFO) primitives, as required by the problem constraint.
+class QueueViaDeque:
+    def __init__(self):
+        self.d = deque()
+
+    def enqueue(self, val):
+        self.d.append(val)              # O(1)
+
+    def dequeue(self):
+        return self.d.popleft()         # O(1), no reversal needed
+
+    def peek(self):
+        return self.d[0]
+
+    def empty(self):
+        return len(self.d) == 0
+
+
+# ── Worked example: enqueue 1, 2, 3 then dequeue all ────────────────────────
+print("=== Worked example ===")
+for name, q in [("Two-stack", QueueViaStacks()), ("Deque", QueueViaDeque())]:
+    q.enqueue(1); q.enqueue(2); q.enqueue(3)
+    out = []
+    while not q.empty():
+        out.append(q.dequeue())
+    print(f"{name}: {out}")
+# Expected output:
+#   Two-stack: [1, 2, 3]
+#   Deque: [1, 2, 3]
+
+# ── Boundary example: single element ─────────────────────────────────────────
+print("=== Boundary: single element ===")
+for name, q in [("Two-stack", QueueViaStacks()), ("Deque", QueueViaDeque())]:
+    q.enqueue(42)
+    print(f"{name}: {q.dequeue()}")
+# Expected output:
+#   Two-stack: 42
+#   Deque: 42
+
+# ── Boundary example: interleaved enqueue / dequeue ─────────────────────────
+print("=== Boundary: interleaved ops ===")
+for name, q in [("Two-stack", QueueViaStacks()), ("Deque", QueueViaDeque())]:
+    q.enqueue(10); q.enqueue(20)
+    a = q.dequeue()
+    q.enqueue(30)
+    b = q.dequeue()
+    c = q.dequeue()
+    print(f"{name}: {a}, {b}, {c}")
+# Expected output:
+#   Two-stack: 10, 20, 30
+#   Deque: 10, 20, 30
+```
+
+**Comparison of intermediate representations**
+
+| Step | Two-stack (`inbox` / `outbox`) | Single deque |
+|------|-------------------------------|--------------|
+| After `enqueue(1,2,3)` | inbox=`[1,2,3]`, outbox=`[]` | `[1,2,3]` |
+| First `dequeue()` | transfer: inbox=`[]`, outbox=`[3,2,1]`; pop → `1` | popleft → `1` |
+| Second `dequeue()` | outbox=`[3,2]`; pop → `2` (no transfer) | popleft → `2` |
+| Third `dequeue()` | outbox=`[3]`; pop → `3` | popleft → `3` |
+
+The key difference: the two-stack method pays a one-time O(n) reversal cost the first time `outbox` runs dry, then serves subsequent dequeues in O(1) until `outbox` empties again. The deque baseline never needs a reversal because `popleft` directly accesses the front. Both produce FIFO order; the two-stack approach just achieves it with only LIFO (stack) primitives.
+
 ### Circular Queue Problems:
 
 - [Design Circular Queue](https://leetcode.com/problems/design-circular-queue/description/)

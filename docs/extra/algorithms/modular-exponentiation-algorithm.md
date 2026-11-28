@@ -98,3 +98,11 @@ The time complexity of the modular exponentiation algorithm is significantly red
 ## Conclusion
 The Modular Exponentiation Algorithm provides an efficient way to compute large powers modulo a number. It leverages the technique of exponentiation by squaring to reduce the number of operations from exponential to logarithmic time. This algorithm is crucial in fields like cryptography and number theory, where operations with large numbers are common and need to be performed efficiently.
 
+
+### Worked Trace (`base = 2, exp = 10, mod = 1000`)
+- **Initial state**: `result = 1`, `base = 2`, `exp = 10`
+- **Iteration 1** (`exp = 10`, even): `result = 1`, `base = 4`, `exp = 5`
+- **Iteration 2** (`exp = 5`, odd): `result = 4`, `base = 16`, `exp = 2`
+- **Iteration 3** (`exp = 2`, even): `result = 4`, `base = 256`, `exp = 1`
+- **Iteration 4** (`exp = 1`, odd): `result = 24`, `base = 536`, `exp = 0`
+- **Loop ends (`exp == 0`)**: returns `24`.

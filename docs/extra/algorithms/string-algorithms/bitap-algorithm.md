@@ -104,15 +104,48 @@ void bitapSearch(const string& text, const string& pattern, int maxErrors) {
 }
 
 int main() {
+    // Worked example: pattern sits at index 17 in the text.
+    // With maxErrors = 1 the search still finds it (zero substitutions needed).
     string text = "this is a simple example";
     string pattern = "example";
     int maxErrors = 1; // Allow 1 error (insertion, deletion, or substitution)
 
+    cout << "=== Worked example (1 error allowed) ===" << endl;
     bitapSearch(text, pattern, maxErrors);
+    // Expected output:
+    //   Pattern found at index 17 with 1 allowed errors.
+
+    // Boundary example: exact match only, 0 errors allowed.
+    // "ell" appears at index 1 inside "hello".
+    cout << "=== Boundary example (0 errors, exact match) ===" << endl;
+    bitapSearch("hello", "ell", 0);
+    // Expected output:
+    //   Pattern found at index 1 with 0 allowed errors.
+
+    // Boundary example: pattern absent, no output expected.
+    cout << "=== Boundary example (0 errors, no match) ===" << endl;
+    bitapSearch("hello", "xyz", 0);
+    // Expected output: (none)
 
     return 0;
 }
 ```
+
+**Worked example trace**
+
+For `text = "this is a simple example"` and `pattern = "example"` (length 7):
+
+- `preprocessPattern` builds a bitmask for each character.  For character `'e'`, bit 0 is cleared (position 0 in pattern); for `'x'`, bit 1 is cleared; and so on.
+- During the scan, `R[j]` tracks how many characters of the pattern have been matched with at most `j` errors.  A match is signalled when bit `m-1` (bit 6 for a 7-character pattern) of `R[maxErrors]` is 0.
+- At text position `i = 23` (last character `'e'` of `"example"`), `R[1]` satisfies `(R[1] & (1 << 6)) == 0`, so the match is reported starting at index `23 - 7 + 1 = 17`.
+
+**Boundary example trace**
+
+For `text = "hello"` and `pattern = "ell"` with `maxErrors = 0`:
+
+- An exact match is required (no errors).
+- At `i = 3` (character `'l'`, end of `"ell"`), the check passes and the match is reported at index `3 - 3 + 1 = 1`.
+- For `pattern = "xyz"` there is no position where three consecutive characters match, so nothing is printed.
 
 ### Summary:
 

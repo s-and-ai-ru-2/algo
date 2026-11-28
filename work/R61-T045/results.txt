@@ -1,0 +1,23 @@
+Tool version: Apple clang version 21.0.0 (clang-2100.1.1.101)
+Python: 3.14.7 (v3.14.7:823f0323ee6, Aug  5 2026, 07:07:01) [Clang 21.0.0 (clang-2100.1.1.101)]
+
+Inputs:
+  Worked example  — text='this is a simple example', pattern='example', maxErrors=1
+  Boundary exact  — text='hello', pattern='ell', maxErrors=0
+  Boundary no-match — text='hello', pattern='xyz', maxErrors=0
+
+Expected output:
+=== Worked example (1 error allowed) ===
+Pattern found at index 17 with 1 allowed errors.
+=== Boundary example (0 errors, exact match) ===
+Pattern found at index 1 with 0 allowed errors.
+=== Boundary example (0 errors, no match) ===
+
+Actual output:
+=== Worked example (1 error allowed) ===
+Pattern found at index 17 with 1 allowed errors.
+=== Boundary example (0 errors, exact match) ===
+Pattern found at index 1 with 0 allowed errors.
+=== Boundary example (0 errors, no match) ===
+
+Status: PASS
